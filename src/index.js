@@ -3,41 +3,29 @@ import ReactDom from 'react-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
-import App from './App';
-import { counter } from './index.redux';
+import reducer from './reducer';
+import Auth from './Auth';
+import Dashboard from './Dashboard';
 
 const reduxDevtools = window.devToolsExtension ? window.devToolsExtension() : () => { };
-const store = createStore(counter, compose(
+const store = createStore(reducer, compose(
     applyMiddleware(thunk),
     reduxDevtools
 ));
-function ErYing() {
-    return <h2>二营</h2>
-}
-function QiBingLian() {
-    return <h2>骑兵连</h2>
-}
+
+console.log(store.getState());
+
 ReactDom.render(
     <Provider store={store}>
         <BrowserRouter>
             <div>
-                <ul>
-                    <li>
-                        <Link to='/'>仓库</Link>
-                    </li>
-                    <li>
-                        <Link to='erying'>二营</Link>
-                    </li>
-                    <li>
-                        <Link to='qibinglian'>骑兵连</Link>
-                    </li>
-                </ul>
-                <Route path='/' exact component={App} />
-                <Route path='/erying' component={ErYing} />
-                <Route path='/qibinglian' component={QiBingLian} />
-
+                <Switch>
+                    <Route path='/login' exact component={Auth} />
+                    <Route path='/dashboard' component={Dashboard} />
+                    <Redirect to='/dashboard' />
+                </Switch>
             </div>
         </BrowserRouter>
     </Provider>,
