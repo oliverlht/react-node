@@ -30,7 +30,7 @@ export function logout() {
 
 export function getUserData() {
     return dispatch => {
-        axios.get('/data')
+        axios.get('http://47.98.166.211:9093/data')
             .then(res => {
                 if (res.status === 200) {
                     dispatch(userData(res.data))
