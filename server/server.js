@@ -1,5 +1,7 @@
 const express = require('express');
 const userRouter = require('./user.js')
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 
 
 //添加数据
@@ -29,6 +31,8 @@ const userRouter = require('./user.js')
 // 新建app
 const app = express();
 
+app.use(cookieParser());
+app.use(bodyParser.json());
 app.use('/user',userRouter);
 
 app.get('/', function (req, res) {

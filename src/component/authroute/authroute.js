@@ -1,8 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { loadData } from '../../redux/user.redux.js';
 
 @withRouter
+@connect(
+    null,
+    {loadData}
+)
 export default class AuthRoute extends React.Component {
     componentDidMount() {
         //判断路由
@@ -16,8 +22,9 @@ export default class AuthRoute extends React.Component {
             .then(res => {
                 if (res.status === 200) {
                     console.log('res', res.data)
-                    if (res.data.code === 1) { //已登录
-                        console.log('已登录')
+                    if (res.data.code === 0) { //已登录
+                        console.log('已登录');
+                        this.props.loadData(res.data.data);
                     } else { //未登录
                         console.log('未登录');
                         this.props.history.push('/login');
